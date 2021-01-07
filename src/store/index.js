@@ -1,11 +1,13 @@
+// PACKAGE IMPORT
 import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+
+// FILE IMPORT
 import reducer from '../reducers/index';
 
 let store;
-
-export function confirgureStore(){
+export function configureStore(){
     store = createStore(reducer, applyMiddleware(thunk, logger));
     return store;
 }
