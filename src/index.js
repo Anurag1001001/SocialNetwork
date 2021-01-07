@@ -1,7 +1,8 @@
 // PACKAGE IMPORT 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
+
 
 // FILE IMPORT
 import './index.css';
@@ -9,10 +10,10 @@ import App from './components/App';
 import {configureStore} from './store/index';
 
 const store = configureStore();
-console.log('store', store.getState());
+// console.log('store', store);
 
 ReactDOM.render(
-  <Provider>
+  <Provider store ={store}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
