@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 // FILE IMPORT
 import {fetchPosts} from '../actions/posts';
+import {PostsList} from './';
 
 class App extends React.Component{
   componentDidMount(){
@@ -11,8 +12,12 @@ class App extends React.Component{
     this.props.dispatch(fetchPosts());
   }
   render(){
-    console.log('PROPS(coming from App.js)', this.props);
-    return <div>App</div>;
+    const {posts} = this.props;
+    return (
+      <div>
+        <PostsList posts= {posts} />
+      </div>
+    );
   }
 }
 
