@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+// There are two ways to handle forms in react, the very first one is by Uncontrolled component and the second way is by using Controlled component.
+// 1. By using UnControlled component :- simply means that where data is not managed by react component itself, the form data where the email field, password field is not managed by react itself but will be managed by DOM. So let's for the understanding purpose make our login Form Uncontrolled Component
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +44,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-// There are two ways to handle forms in react, the very first one is by Uncontrolled component and the second way is by using Controlled component.
-// 1. By using UnControlled component :- simply means that where data is not managed by react component itself, the form data where the email field, password field is not managed by react itself but will be managed by DOM. So let's for the understanding purpose make our login Form Uncontrolled Component
