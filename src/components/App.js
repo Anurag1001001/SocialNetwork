@@ -6,12 +6,7 @@ import PropTypes from "prop-types";
 
 // FILE IMPORT
 import { fetchPosts } from "../actions/posts";
-import { Home, Navbar, Page404 } from "./";
-
-// dummy component to understand Routing
-
-const Login = () => <div>login</div>;
-const SignUp = () => <div>SignUp</div>;
+import { Home, Navbar, Page404, Login, SignUp } from "./";
 
 class App extends React.Component {
   componentDidMount() {
