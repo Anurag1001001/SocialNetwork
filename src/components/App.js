@@ -32,7 +32,7 @@ class App extends React.Component{
           {/* <PostsList posts= {posts} /> */}
           
 
-          {/* when i click on the given link react router route me to the given path which i mentioned in the <Route> tag */}
+          {/* when i click on the given link, react router route me to the given path which i mentioned in the <Route /> component */}
           <ul>
             <li>
               <Link to = 'Login'>login</Link>
