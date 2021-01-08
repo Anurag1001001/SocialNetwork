@@ -1,64 +1,53 @@
 // PACKAGE IMPORT
-import React from 'react';
-import {connect} from 'react-redux';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from "react";
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // FILE IMPORT
-import {fetchPosts} from '../actions/posts';
-import {PostsList, Navbar} from './';
-
+import { fetchPosts } from "../actions/posts";
+import { Home, Navbar } from "./";
 
 // dummy component to understand Routing
 
-const Login = () =><div>login</div>
-const SignUp = () => <div>SignUp</div>
-const Home = () => <div>Home</div>
+const Login = () => <div>login</div>;
+const SignUp = () => <div>SignUp</div>;
 
-
-
-class App extends React.Component{
-  componentDidMount(){
+class App extends React.Component {
+  componentDidMount() {
     // call fetchPosts() function to fetch posts from api
     this.props.dispatch(fetchPosts());
   }
-  render(){
-    const {posts} = this.props;
+  render() {
+    const { posts } = this.props;
     return (
-      // it's my root component so i should tell Router by wrapping all the stuffs of root component, now Router has to work inside it. 
+      // it's my root component so i should tell Router by wrapping all the stuffs of root component, now Router has to work inside it.
       <Router>
         <div>
           <Navbar />
-          {/* <PostsList posts= {posts} /> */}
+
+          {/* The benefit of using <Link> that react-router-dom provide is it doesn't reload the page whereas <a href=''> tag reload the page.
+          So the next thing is that whenever we render our component via <Route /> component then <Route component pass the props by default, you can just console.log and look at those props.
+          One more thing i want to tell is that <Route /> component will not accept any props apart from the default ones, so there is an alternative react-router-dom provide is to use render prop instead of component prop (any thing i've used inside<Route /> is the props ) in <Route /> like this ---> <Route path='/' render ={() => {Home}}, render prop will get a callback and we can easily pass props there>.
           
-
-          {/* when i click on the given link, react router route me to the given path which i mentioned in the <Route /> component */}
-          <ul>
-            <li>
-              <Link to = 'Login'>login</Link>
-            </li>
-            <li>
-              <Link to = 'SignUp'>SignUp</Link>
-            </li>
-            <li>
-              <Link to = '/'>Home</Link>
-            </li>
-          </ul>
-          {/* The benefit of using <Link> that react-router-dom provide is it doesn't reload the page whereas <a href=''> tag reload the page  */}
-
-          {/* Let say i want Navbar to be common in our application then what i would write <Navbar/> outside Route, to specify a path for routing like below */}
-          <Route exact path ='/' component = {Home}  />
-          <Route exact path ='/Login' component = {Login}  />
-          <Route exact path ='/SignUp' component = {SignUp}  />
-
-
+          */}
+          <Route
+            exact
+            path="/"
+            render={(props) => {
+              // Rembember i talked about default props that <Route /> give to us, so by using render (props/function don't know exactly what it is.) those default props are not passed to <Home /> component bu we can pass those default props to the callback and to the <Home /> component.
+              return <Home {...props} posts={posts} />;
+            }}
+          />
+          <Route exact path="/Login" component={Login} />
+          <Route exact path="/SignUp" component={SignUp} />
         </div>
       </Router>
     );
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     posts: state.posts,
   };
@@ -66,7 +55,6 @@ function mapStateToProps(state){
 
 App.propTypes = {
   posts: PropTypes.array.isRequired,
-}
-
+};
 
 export default connect(mapStateToProps)(App);
