@@ -1,10 +1,10 @@
-// Package import 
-import {combineReducers} from 'redux';
+// Package import
+import { combineReducers } from "redux";
 
-// File import 
-import posts from './posts';
-
+// File import
+import posts from "./posts";
+import auth from "./auth";
 
 export default combineReducers({
-    posts
+  posts,
 });
