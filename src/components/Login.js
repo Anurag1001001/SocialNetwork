@@ -1,4 +1,9 @@
+// Package import
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+// file import
+import { login } from "../actions/auth";
 
 // There are two ways to handle forms in react, the very first one is by Uncontrolled component and the second way is by using Controlled component.
 // 1. By using UnControlled component :- simply means that where data is not managed by react component itself, the form data where the email field, password field is not managed by react itself but will be managed by DOM. So let's for the understanding purpose make our login Form Uncontrolled Component
@@ -33,12 +38,16 @@ class Login extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("this.state(Coming from components/login)", this.state);
+    // console.log("this.state(Coming from components/login)", this.state);
+    const { email, password } = this.state;
+    this.props.dispatch(login(email, password));
   };
   render() {
+    const { error, inProgress } = this.props.auth;
     return (
       <form className="login-form">
         <span className="login-signup-header">Log In</span>
+        {error && <div className="alert error-dialog">{error}</div>}
         <div className="field">
           <input
             type="email"
@@ -60,11 +69,26 @@ class Login extends Component {
           />
         </div>
         <div className="field">
-          <button onClick={this.handleFormSubmit}>Log In</button>
+          {/* getting value of inProgress from auth state so that i can make a button disbale and stops user to make multiple requests again and again, while first request is taking place and server is doing their job, and button will be active as sson asserver responds. I did this to avoid multiple unneccessary load to the server that's it. */}
+
+          {inProgress ? (
+            <button onClick={this.handleFormSubmit} disabled={inProgress}>
+              Logging in ...
+            </button>
+          ) : (
+            <button onClick={this.handleFormSubmit} disabled={inProgress}>
+              Log In
+            </button>
+          )}
         </div>
       </form>
     );
   }
 }
 
-export default Login;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(Login);

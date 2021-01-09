@@ -1,4 +1,4 @@
-import { LOGIN_START } from "./actionTypes";
+import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS } from "./actionTypes";
 import { APIUrls } from "../helpers/url";
 import { getFormBody } from "../helpers/utils";
 
@@ -7,9 +7,23 @@ export function startLogin() {
     type: LOGIN_START,
   };
 }
+export function loginFailed(error) {
+  return {
+    type: LOGIN_FAILED,
+    error,
+  };
+}
+export function loginSucess(user) {
+  return {
+    type: LOGIN_SUCCESS,
+    user,
+  };
+}
 
 export function login(email, password) {
   return (dispatch) => {
+    // we can dispatch startlogin() in two ways either from here(like just did) or from startlogin(), we're disptaching this startlogin() coz i want to set value of inProgress, whether my request is "inProgress" or not
+    dispatch(startLogin());
     const url = APIUrls.login();
     // By default fetch() request is GET one but i don't wanna make GET request for login, coz its a POST one, so i've to explicitly mention it inside fetch().
 
@@ -20,6 +34,17 @@ export function login(email, password) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: getFormBody({ email, password }),
-    });
+    })
+      // now i should handle all the response which i'm getting as a promise and since the response would be Object i should convert it into .json()
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        if (data.success) {
+          // dispatch action to save user
+          dispatch(loginSucess(data.data.user));
+          return;
+        }
+        dispatch(loginFailed(data.message));
+      });
   };
 }
