@@ -16,6 +16,7 @@ const initialAuthState = {
 
 export default function auth(state = initialAuthState, action) {
   switch (action.type) {
+    // added this to improve the user experience, please read all comment of clearAuthState from action creation to reducers.
     case CLEAR_AUTH_STATE:
       return {
         ...state,
