@@ -40,6 +40,10 @@ export function login(email, password) {
       .then((data) => {
         console.log("data", data);
         if (data.success) {
+          // let's store the JWT token which i'll be getting from the server
+          localStorage.setItem("token", data.data.token);
+          console.log(data.data.token);
+
           // dispatch action to save user
           dispatch(loginSucess(data.data.user));
           return;

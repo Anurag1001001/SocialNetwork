@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
+import jwt_decode from "jwt-decode";
 
 // FILE IMPORT
 import { fetchPosts } from "../actions/posts";
@@ -12,6 +13,15 @@ class App extends React.Component {
   componentDidMount() {
     // call fetchPosts() function to fetch posts from api
     this.props.dispatch(fetchPosts());
+
+    // getting the jwt token from localStorage since i've stored it in localStorage which i was getting from the server.
+    const token = localStorage.getItem("token");
+    // console.log("hi", token);
+
+    if (token) {
+      const user = jwt_decode(token);
+      console.log(user);
+    }
   }
   render() {
     const { posts } = this.props;
