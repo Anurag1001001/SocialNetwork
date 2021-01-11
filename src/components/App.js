@@ -12,11 +12,11 @@ import jwt_decode from "jwt-decode";
 
 // FILE IMPORT
 import { fetchPosts } from "../actions/posts";
-import { Home, Navbar, Page404, Login, SignUp } from "./";
+import { Home, Navbar, Page404, Login, SignUp, settings } from "./";
 import { authenticateUser } from "../actions/auth.js";
 
 // dummy ROutes
-const settings = () => <div>Settings</div>;
+// const settings = () => <div>Settings</div>;
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
