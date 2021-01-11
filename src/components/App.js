@@ -24,7 +24,19 @@ const PrivateRoute = (privateRouteProps) => {
     <Route
       path={path}
       render={(props) => {
-        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+        // so i made a change here, earlier i was redirecting to the 'login' component but for the better user experience i would render the page which he was trying to access before loggin , i've used the default props "<Route/>" component (location, match, history)
+        return isLoggedin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );
