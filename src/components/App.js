@@ -1,7 +1,12 @@
 // PACKAGE IMPORT
 import React from "react";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import PropTypes from "prop-types";
 import jwt_decode from "jwt-decode";
 
@@ -9,6 +14,21 @@ import jwt_decode from "jwt-decode";
 import { fetchPosts } from "../actions/posts";
 import { Home, Navbar, Page404, Login, SignUp } from "./";
 import { authenticateUser } from "../actions/auth.js";
+
+// dummy ROutes
+const settings = () => <div>Settings</div>;
+
+const PrivateRoute = (privateRouteProps) => {
+  const { isLoggedin, path, component: Component } = privateRouteProps;
+  return (
+    <Route
+      path={path}
+      render={(props) => {
+        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+      }}
+    />
+  );
+};
 
 class App extends React.Component {
   componentDidMount() {
@@ -32,7 +52,7 @@ class App extends React.Component {
     }
   }
   render() {
-    const { posts } = this.props;
+    const { posts, auth } = this.props;
     return (
       // it's my root component so i should tell Router by wrapping all the stuffs of root component, now Router has to work inside it.
       <Router>
@@ -55,6 +75,11 @@ class App extends React.Component {
             />
             <Route path="/Login" component={Login} />
             <Route path="/SignUp" component={SignUp} />
+            <PrivateRoute
+              path="/settings"
+              component={settings}
+              isLoggedin={auth.isLoggedin}
+            />
             <Route component={Page404} />
             {/* So ideally how <Route /> component works is : it ideally matches the path mentioned line by line and if it's matches then it route towards those component, and if more paths matches then it render component accordingly, so what i want to create here is if user entered worng URL then i want to display Page404.js component, one more thing i want my <Route /> component go to only one route whatever matches first, so in that case i'm gonna use switch component that i get from react-router-dom.
           
@@ -69,6 +94,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    auth: state.auth,
   };
 }
 
