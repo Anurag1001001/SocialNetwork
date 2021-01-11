@@ -50,8 +50,10 @@ class Login extends Component {
   };
   render() {
     const { error, inProgress, isLoggedin } = this.props.auth;
+    // used ES6 feature
     const { from } = this.props.location.state || { from: { pathname: "/" } };
     if (isLoggedin) {
+      // 'to ' can take the object as well
       return <Redirect to={from} />;
     }
     return (
