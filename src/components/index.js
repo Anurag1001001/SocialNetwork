@@ -6,5 +6,16 @@ import Page404 from "./Page404";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import settings from "./settings";
+import userProfile from "./userProfile";
 
-export { PostsList, App, Navbar, Home, Page404, Login, SignUp, settings };
+export {
+  PostsList,
+  App,
+  Navbar,
+  Home,
+  Page404,
+  Login,
+  SignUp,
+  settings,
+  userProfile,
+};

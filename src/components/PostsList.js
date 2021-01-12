@@ -1,6 +1,7 @@
 // PACKAGE IMPORT
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class PostsList extends Component {
   render() {
@@ -11,10 +12,13 @@ class PostsList extends Component {
           <div className="post-wrapper" key={post._id}>
             <div className="post-header">
               <div className="post-avatar">
-                <img
-                  src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                  alt="user-pic"
-                />
+                <Link to="user">
+                  <img
+                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                    alt="user-pic"
+                  />
+                </Link>
+
                 <div>
                   <span className="post-author">{post.user.name}</span>
                   <span className="post-time">a minute ago</span>
@@ -64,7 +68,6 @@ class PostsList extends Component {
 
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
-}
-
+};
 
 export default PostsList;

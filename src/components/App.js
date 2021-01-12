@@ -12,7 +12,15 @@ import jwt_decode from "jwt-decode";
 
 // FILE IMPORT
 import { fetchPosts } from "../actions/posts";
-import { Home, Navbar, Page404, Login, SignUp, settings } from "./";
+import {
+  Home,
+  Navbar,
+  Page404,
+  Login,
+  SignUp,
+  settings,
+  userProfile,
+} from "./";
 import { authenticateUser } from "../actions/auth.js";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
@@ -92,6 +100,11 @@ class App extends React.Component {
             <PrivateRoute
               path="/settings"
               component={settings}
+              isLoggedin={auth.isLoggedin}
+            />
+            <PrivateRoute
+              path="/user/:userId"
+              component={userProfile}
               isLoggedin={auth.isLoggedin}
             />
             <Route component={Page404} />
