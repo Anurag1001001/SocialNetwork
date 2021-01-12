@@ -5,9 +5,11 @@ import {
   AUTHENTICATE_USER,
   LOG_OUT,
   CLEAR_AUTH_STATE,
+  EDIT_USER_SUCCESSFUL,
+  EDIT_USER_FAILED,
 } from "./actionTypes";
 import { APIUrls } from "../helpers/url";
-import { getFormBody } from "../helpers/utils";
+import { getAuthTokenFromLocalStorage, getFormBody } from "../helpers/utils";
 
 export function startLogin() {
   return {
@@ -75,5 +77,56 @@ export function logoutUser() {
 export function clearAuthState() {
   return {
     type: CLEAR_AUTH_STATE,
+  };
+}
+
+// Edit user Profile
+
+export function editUserSuccessful(user) {
+  return {
+    type: EDIT_USER_SUCCESSFUL,
+    user,
+  };
+}
+export function editUserFailed(error) {
+  return {
+    type: EDIT_USER_FAILED,
+    error,
+  };
+}
+export function editUser(name, password, confirmPassword, userId) {
+  // this is going to be async call coz we're going to request to the server to edit user profile.
+  // async call means this should return a function(thunk concept).
+  return (dispatch) => {
+    const url = APIUrls.editProfile();
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Beaarer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: getFormBody({
+        name,
+        password,
+        confirm_password: confirmPassword,
+        id: userId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data Coming from auth.js", data);
+        if (data.success) {
+          dispatch(editUserSuccessful(data.data.user));
+
+          // as we know that our JWT token contains user information(username,name) so if username changes then we'll get a new access token and we need to store it in order to be login, if user only changes the password, confirmPassword then we'll not get access token.
+          if (data.data.token) {
+            localStorage.setItem("token", data.data.token);
+          }
+          return;
+        }
+        //  if returns Failure then dispatch below action
+        dispatch(editUserFailed(data.message));
+      });
   };
 }

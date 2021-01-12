@@ -14,6 +14,7 @@ import jwt_decode from "jwt-decode";
 import { fetchPosts } from "../actions/posts";
 import { Home, Navbar, Page404, Login, SignUp, settings } from "./";
 import { authenticateUser } from "../actions/auth.js";
+import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
 // dummy ROutes
 // const settings = () => <div>Settings</div>;
@@ -49,7 +50,7 @@ class App extends React.Component {
     this.props.dispatch(fetchPosts());
 
     // getting the jwt token from localStorage since i've stored it in localStorage which i was getting from the server.
-    const token = localStorage.getItem("token");
+    const token = getAuthTokenFromLocalStorage();
     // console.log("hi", token);
 
     if (token) {
