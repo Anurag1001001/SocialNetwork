@@ -104,7 +104,7 @@ export function editUser(name, password, confirmPassword, userId) {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Beaarer ${getAuthTokenFromLocalStorage()}`,
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
       body: getFormBody({
         name,
