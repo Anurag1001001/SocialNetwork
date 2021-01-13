@@ -1,6 +1,10 @@
 import { APIUrls } from "../helpers/url";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
-import { ADD_FRIEND, FETCH_FRIENDS_SUCCESS } from "./actionTypes";
+import {
+  ADD_FRIEND,
+  FETCH_FRIENDS_SUCCESS,
+  REMOVE_FRIEND,
+} from "./actionTypes";
 
 export function fetchUserFriends(userId) {
   // async call, so return type should be function.
@@ -30,5 +34,11 @@ export function addFriend(friend) {
   return {
     type: ADD_FRIEND,
     friend,
+  };
+}
+export function removeFriend(userId) {
+  return {
+    type: REMOVE_FRIEND,
+    userId,
   };
 }

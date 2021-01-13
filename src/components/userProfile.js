@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addFriend } from "../actions/friends";
+import { addFriend, removeFriend } from "../actions/friends";
 import { fetchUserProfile } from "../actions/profile";
 import { APIUrls } from "../helpers/url";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
@@ -19,6 +19,7 @@ class userProfile extends Component {
     this.state = {
       success: null,
       error: null,
+      successMessage: null,
     };
   }
 
@@ -55,9 +56,36 @@ class userProfile extends Component {
     if (data.success) {
       this.setState({
         success: true,
+        successMessage: "Added Friend Successfully!",
       });
       // dispatch an action
       this.props.dispatch(addFriend(data.data.friendship));
+    } else {
+      this.setState({
+        success: null,
+        error: data.message,
+      });
+    }
+  };
+  handleRemoveFriendClick = async () => {
+    const userId = this.props.match.params.userId;
+    const url = APIUrls.removeFriend(userId);
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (data.success) {
+      this.setState({
+        success: true,
+        successMessage: "Removed Friend Successfully!",
+      });
+      // dispatch an action
+      this.props.dispatch(removeFriend(userId));
     } else {
       this.setState({
         success: null,
@@ -75,7 +103,7 @@ class userProfile extends Component {
       return <h1>Loading!</h1>;
     }
     const isUserAFriend = this.checkIfUserIsAFriends();
-    const { success, error } = this.state;
+    const { success, error, successMessage } = this.state;
     return (
       <div className="settings">
         <div className="img-container">
@@ -103,13 +131,16 @@ class userProfile extends Component {
               Add Friend
             </button>
           ) : (
-            <button className="button save-btn">Remove Friend</button>
+            <button
+              className="button save-btn"
+              onClick={this.handleRemoveFriendClick}
+            >
+              Remove Friend
+            </button>
           )}
 
           {success && (
-            <div className="alert success-dailog">
-              Friend Added Successfully
-            </div>
+            <div className="alert success-dailog">{successMessage}</div>
           )}
           {error && <div className="alert error-dailog">{error}</div>}
         </div>
