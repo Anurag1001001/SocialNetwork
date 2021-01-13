@@ -23,6 +23,7 @@ import {
 } from "./";
 import { authenticateUser } from "../actions/auth.js";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
+import { fetchUserFriends } from "../actions/friends";
 
 // dummy ROutes
 // const settings = () => <div>Settings</div>;
@@ -59,7 +60,6 @@ class App extends React.Component {
 
     // getting the jwt token from localStorage since i've stored it in localStorage which i was getting from the server.
     const token = getAuthTokenFromLocalStorage();
-    // console.log("hi", token);
 
     if (token) {
       const user = jwt_decode(token);
@@ -71,10 +71,13 @@ class App extends React.Component {
           name: user.name,
         })
       );
+      // if token present means that user loggedin hai then we need to fetch the friendList of loggedin user.
+      //  so here we're dispatching an action to get the friendList.
+      this.props.dispatch(fetchUserFriends());
     }
   }
   render() {
-    const { posts, auth } = this.props;
+    const { posts, auth, friends } = this.props;
     return (
       // it's my root component so i should tell Router by wrapping all the stuffs of root component, now Router has to work inside it.
       <Router>
@@ -92,7 +95,15 @@ class App extends React.Component {
               path="/"
               render={(props) => {
                 // Rembember i talked about default props that <Route /> give to us, so by using render (props/function don't know exactly what it is.) those default props are not passed to <Home /> component bu we can pass those default props to the callback and to the <Home /> component.
-                return <Home {...props} posts={posts} />;
+                //  friends as a props Home component ko pass kr de rha hu here.
+                return (
+                  <Home
+                    {...props}
+                    posts={posts}
+                    friends={friends}
+                    isLoggedin={auth.isLoggedin}
+                  />
+                );
               }}
             />
             <Route path="/Login" component={Login} />
@@ -122,6 +133,7 @@ function mapStateToProps(state) {
   return {
     posts: state.posts,
     auth: state.auth,
+    friends: state.friends,
   };
 }
 
