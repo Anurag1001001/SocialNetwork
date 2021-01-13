@@ -19,6 +19,18 @@ class userProfile extends Component {
     }
   }
 
+  checkIfUserIsAFriends = () => {
+    // console.log("coming from userProfile.js", this.props);
+    const { match, friends } = this.props;
+    const userId = match.params.userId;
+    const index = friends.map((friend) => friend.to_user._id).indexOf(userId);
+
+    if (index !== -1) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const { profile } = this.props;
     const { user } = profile;
@@ -27,6 +39,7 @@ class userProfile extends Component {
       // we can add loadder(or some animation) here but for now using h1 heading
       return <h1>Loading!</h1>;
     }
+    const isUserAFriend = this.checkIfUserIsAFriends();
     return (
       <div className="settings">
         <div className="img-container">
@@ -46,16 +59,21 @@ class userProfile extends Component {
         </div>
 
         <div className="btn-grp">
-          <button className="button save-btn">Add Friend</button>
+          {!isUserAFriend ? (
+            <button className="button save-btn">Add Friend</button>
+          ) : (
+            <button className="button save-btn">Remove Friend</button>
+          )}
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ profile }) {
+function mapStateToProps({ profile, friends }) {
   return {
     profile,
+    friends,
   };
 }
 export default connect(mapStateToProps)(userProfile);
