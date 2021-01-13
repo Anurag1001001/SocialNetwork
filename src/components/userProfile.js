@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { addFriend } from "../actions/friends";
 import { fetchUserProfile } from "../actions/profile";
+import { APIUrls } from "../helpers/url";
+import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
 // xxxxxxxxxxxxxxxx Notes xxxxxxxxxxxxxxxxxx
 // So whenever i click on the user profile react router will redirect me to this component iff i'm loggedin otherwise react-router redirect me to the login page and ask to log in.
@@ -11,6 +14,14 @@ import { fetchUserProfile } from "../actions/profile";
 // xxxxxxxxxxxxxxxx Notes xxxxxxxxxxxxxxxxxx
 
 class userProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: null,
+      error: null,
+    };
+  }
+
   componentDidMount() {
     const { match } = this.props;
     if (match.params.userId) {
@@ -24,11 +35,35 @@ class userProfile extends Component {
     const { match, friends } = this.props;
     const userId = match.params.userId;
     const index = friends.map((friend) => friend.to_user._id).indexOf(userId);
-
     if (index !== -1) {
       return true;
     }
     return false;
+  };
+  handleAddFriendClick = async () => {
+    const userId = this.props.match.params.userId;
+    const url = APIUrls.addFriend(userId);
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (data.success) {
+      this.setState({
+        success: true,
+      });
+      // dispatch an action
+      this.props.dispatch(addFriend(data.data.friendship));
+    } else {
+      this.setState({
+        success: null,
+        error: data.message,
+      });
+    }
   };
 
   render() {
@@ -40,6 +75,7 @@ class userProfile extends Component {
       return <h1>Loading!</h1>;
     }
     const isUserAFriend = this.checkIfUserIsAFriends();
+    const { success, error } = this.state;
     return (
       <div className="settings">
         <div className="img-container">
@@ -60,10 +96,22 @@ class userProfile extends Component {
 
         <div className="btn-grp">
           {!isUserAFriend ? (
-            <button className="button save-btn">Add Friend</button>
+            <button
+              className="button save-btn"
+              onClick={this.handleAddFriendClick}
+            >
+              Add Friend
+            </button>
           ) : (
             <button className="button save-btn">Remove Friend</button>
           )}
+
+          {success && (
+            <div className="alert success-dailog">
+              Friend Added Successfully
+            </div>
+          )}
+          {error && <div className="alert error-dailog">{error}</div>}
         </div>
       </div>
     );

@@ -19,3 +19,6 @@ export const FETCH_USER_PROFILE = "FETCH_USER_PROFILE";
 
 // Friends
 export const FETCH_FRIENDS_SUCCESS = "FETCH_FRIEND_SUCCESS";
+
+// ADD_FRIEND
+export const ADD_FRIEND = "ADD_FRIEND";
