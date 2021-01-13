@@ -1,5 +1,7 @@
 //  UpdatePost action type
 export const UPDATE_POSTS = "UPDATE_POSTS";
+// ADD Post
+export const ADD_POST = "ADD_POST";
 
 // login action types
 export const LOGIN_START = "LOGIN_START";
