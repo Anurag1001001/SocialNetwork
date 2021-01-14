@@ -100,7 +100,9 @@ class userProfile extends Component {
 
     if (profile.inProgress) {
       // we can add loadder(or some animation) here but for now using h1 heading
-      return <h1>Loading!</h1>;
+      if (profile.inProgress) {
+        return <div className="loader ml-auto mr-auto mt-5"></div>;
+      }
     }
     const isUserAFriend = this.checkIfUserIsAFriends();
     const { success, error, successMessage } = this.state;

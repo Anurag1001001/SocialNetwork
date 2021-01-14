@@ -27,6 +27,7 @@ class CreatePost extends Component {
           className="add-post"
           value={this.state.content}
           onChange={this.handleChange}
+          placeholder="What's on your mind?"
         />
 
         <div>
