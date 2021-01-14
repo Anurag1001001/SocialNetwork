@@ -25,3 +25,6 @@ export const FETCH_FRIENDS_SUCCESS = "FETCH_FRIEND_SUCCESS";
 // ADD_FRIEND
 export const ADD_FRIEND = "ADD_FRIEND";
 export const REMOVE_FRIEND = "REMOVE_FRIEND";
+
+// COmment
+export const ADD_COMMENT = "ADD_COMMENT";
