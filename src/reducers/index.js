@@ -6,6 +6,7 @@ import posts from "./posts";
 import auth from "./auth";
 import profile from "./profile";
 import friends from "./friends";
+import search from "./search";
 
 // root Reducer
 export default combineReducers({
@@ -13,4 +14,5 @@ export default combineReducers({
   auth,
   profile,
   friends,
+  search,
 });
