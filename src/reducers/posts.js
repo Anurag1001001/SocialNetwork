@@ -32,7 +32,7 @@ export default function posts(state = [], action) {
         if (post._id === action.postId) {
           return {
             ...post,
-            comments: [...posts.likes, action.userId],
+            likes: [...post.likes, action.userId],
           };
         }
         return post;
