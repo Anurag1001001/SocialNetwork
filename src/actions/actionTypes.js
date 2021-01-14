@@ -28,3 +28,6 @@ export const REMOVE_FRIEND = "REMOVE_FRIEND";
 
 // COmment
 export const ADD_COMMENT = "ADD_COMMENT";
+
+// Like
+export const UPDATE_POST_LIKE = "UPDATE_POST_LIKE";
