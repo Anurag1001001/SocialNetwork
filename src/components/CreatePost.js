@@ -11,8 +11,13 @@ class CreatePost extends Component {
   }
 
   handleOnClick = () => {
-    // dispatch action
+    //dispatch an action to create a post.
+    if (document.getElementsByClassName("add-post")[0].value === "") {
+      window.alert("Please write some text in your post!");
+      return;
+    }
     this.props.dispatch(createPost(this.state.content));
+    document.getElementsByClassName("add-post")[0].value = "";
   };
 
   handleChange = (e) => {

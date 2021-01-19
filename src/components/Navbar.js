@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { logoutUser } from "../actions/auth";
 import { searchUsers } from "../actions/search";
+import website_logo from "../website_logo.png";
 
 class Navbar extends React.Component {
   logOut = () => {
@@ -23,10 +24,7 @@ class Navbar extends React.Component {
       <nav className="nav">
         <div className="left-div">
           <Link to="/">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            />
+            <img src={website_logo} alt="logo" />
           </Link>
         </div>
         <div className="search-container">
