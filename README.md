@@ -1,4 +1,4 @@
-# SocialNetwork
+# SocialNetwork(Video Link): https://cutt.ly/WjPbRoN
 
 A social media website using REACT JS, REDUX (using <a href="http://codeial.com:8000/">CODEIAL</a> API)
 
@@ -16,31 +16,31 @@ A social media website using REACT JS, REDUX (using <a href="http://codeial.com:
 
 ### 1. Front Component (Entry page)
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/1.PNG" width=500>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/1.PNG" width=500>
 
 ### 2. Login Component
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/2.PNG" width=500>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/2.PNG" width=500>
 
 ### 3. SignUp Component
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/3.PNG" width=500>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/3.PNG" width=500>
 
 ### 4. Chat and Friends components shows up after signing in
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/4.PNG" width=500>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/4.PNG" width=500>
 
 ### 5. Fully functional chat box component
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/5.PNG" width=300>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/5.PNG" width=300>
 
 ### 6. SearchBar Component for searching users
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/6.PNG" width=500>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/6.PNG" width=500>
 
 ### 7. User profile component and functionality for adding or removing a user as a friend
 
-<img src="https://github.com/parikshit223933/SocialOrzix/blob/master/src/images/7.PNG" width=200>
+<img src="https://github.com/Anurag1001001/SocialNetwork/blob/master/src/images/7.PNG" width=200>
 
 ## File Structure
 
