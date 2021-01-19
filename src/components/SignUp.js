@@ -1,41 +1,104 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { signup, clearAuthState } from "../actions/auth";
 
-// file import
-import { clearAuthState } from "../actions/auth";
-
-class SignUp extends Component {
+class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      name: "",
+      confirm_password: "",
+    };
+  }
   componentWillUnmount() {
-    // so i was having a problem like when i was entering a wrong email or password while login i got an error and that error always exists(when reroute to this address error exists) coz i set error value of 'auth' state.
-    // TO overCome with this problem i need to clear the auth state so i was thinking to dispatch clearAuthstate() function as soon as i got the error(in login() of auth.js(action/auth.js), after loginFailed) but by doing error will not be displayed to the component, so what can i do is dispatch(clearAuthState()) from componentwillUnmount means that when i'm distroying my component then this function will be called
     this.props.dispatch(clearAuthState());
   }
+  handleInputChange = (field, value) => {
+    this.setState({ [field]: value });
+  };
+
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    const { email, password, confirm_password, name } = this.state;
+    this.props.dispatch(signup(name, email, password, confirm_password));
+  };
+
   render() {
-    const { error, inProgress, isLoggedin } = this.props.auth;
-    if (isLoggedin) {
+    const { inProgress, error, isLoggedIn } = this.props.auth;
+    if (isLoggedIn) {
       return <Redirect to="/" />;
     }
     return (
       <form className="login-form">
-        <span className="login-signup-header">Log In</span>
+        <span className="login-signup-header">Sign Up</span>
+        {error && <div className="alert error-dailog">{error}</div>}
+
         <div className="field">
-          <input type="email" placeholder="Email" required />
+          <input
+            type="text"
+            id="Name"
+            className="form-control"
+            placeholder="Enter you name!"
+            required
+            onChange={(event) =>
+              this.handleInputChange("name", event.target.value)
+            }
+          />
         </div>
         <div className="field">
-          <input type="password" placeholder="Password" required />
+          <input
+            type="text"
+            id="email"
+            className="form-control"
+            placeholder="example@abc.com"
+            required
+            onChange={(event) =>
+              this.handleInputChange("email", event.target.value)
+            }
+          />
         </div>
         <div className="field">
-          <button>Log In</button>
+          <input
+            type="password"
+            id="password"
+            className="form-control"
+            placeholder="Enter your password here!"
+            required
+            onChange={(event) =>
+              this.handleInputChange("password", event.target.value)
+            }
+          />
+        </div>
+        <div className="field">
+          <input
+            type="password"
+            id="reenter-password"
+            className="form-control"
+            placeholder="Re-Enter your password here!"
+            required
+            onChange={(event) =>
+              this.handleInputChange("confirm_password", event.target.value)
+            }
+          />
+        </div>
+        <div className="field">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={this.onFormSubmit}
+            disabled={inProgress}
+          >
+            {inProgress ? "Loading..." : "Submit"}
+          </button>
         </div>
       </form>
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  };
-}
 
-export default connect(mapStateToProps)(SignUp);
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps)(Signup);

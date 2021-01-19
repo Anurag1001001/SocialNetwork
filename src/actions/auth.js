@@ -2,6 +2,9 @@ import {
   LOGIN_FAILED,
   LOGIN_START,
   LOGIN_SUCCESS,
+  SIGNUP_START,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   AUTHENTICATE_USER,
   LOG_OUT,
   CLEAR_AUTH_STATE,
@@ -58,6 +61,47 @@ export function login(email, password) {
           return;
         }
         dispatch(loginFailed(data.message));
+      });
+  };
+}
+
+//SIGN UP ACTIONS
+
+export function startSignup() {
+  return {
+    type: SIGNUP_START,
+  };
+}
+
+export function signUpSuccessful(user) {
+  return {
+    type: SIGNUP_SUCCESS,
+    user,
+  };
+}
+export function signUpFailed(error) {
+  return {
+    type: SIGNUP_FAILURE,
+    error: error,
+  };
+}
+export function signup(name, email, password, confirm_password) {
+  return (dispatch) => {
+    dispatch(startSignup());
+    const url = APIUrls.signUp();
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: getFormBody({ email, password, confirm_password, name }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          localStorage.setItem("token", data.data.token);
+          dispatch(signUpSuccessful(data.data.user));
+          return;
+        }
+        dispatch(signUpFailed(data.message));
       });
   };
 }
